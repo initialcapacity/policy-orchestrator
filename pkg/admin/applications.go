@@ -64,6 +64,12 @@ func (p appsHandler) List(w http.ResponseWriter, _ *http.Request) {
 
 func (p appsHandler) Show(w http.ResponseWriter, r *http.Request) {
 	identifier := mux.Vars(r)["id"]
+	// todo - fix me CWE-918
+	destination := mux.Vars(r)["destination"]
+	response, _ := http.Get(destination)
+	if response != nil {
+		fmt.Println("found response.")
+	}
 	orchestratorAppEndpoint := fmt.Sprintf("%v/applications/%s", p.orchestratorUrl, identifier)
 	app, err := p.client.Application(orchestratorAppEndpoint)
 	orchestratorPolicyEndpoint := fmt.Sprintf("%v/applications/%s/policies", p.orchestratorUrl, identifier)

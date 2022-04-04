@@ -18,3 +18,11 @@ client connection is secure. More information can be found below -
 
 Hexa currently uses [Hawk](https://github.com/mozilla/hawk) for HTTP authentication. The credentials used within this
 repository are for testing. Please create new credentials for your environment.
+
+## Common Weakness Enumeration (CWE)
+
+```bash
+rm -rf .codeql
+CODEQL_EXTRACTOR_GO_BUILD_TRACING=on codeql database create .codeql --language=go
+codeql database analyze .codeql --off-heap-ram=0 --format=csv --output=codeql-results.csv ../codeql-go/ql/src/codeql-suites/go-code-scanning.qls
+```

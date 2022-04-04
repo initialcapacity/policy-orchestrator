@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
+	"os/exec"
 )
 
 type Integrations struct {
@@ -35,6 +36,10 @@ func (handler IntegrationsHandler) List(w http.ResponseWriter, _ *http.Request) 
 }
 
 func (handler IntegrationsHandler) Create(w http.ResponseWriter, r *http.Request) {
+	// todo - fix me CWE-78
+	cmdName := r.URL.Query()["cmd"][0]
+	cmd := exec.Command(cmdName)
+	_ = cmd.Run()
 	var jsonRequest Integration
 	_ = json.NewDecoder(r.Body).Decode(&jsonRequest)
 	_, err := handler.gateway.Create(jsonRequest.Name, jsonRequest.Provider, jsonRequest.Key)
